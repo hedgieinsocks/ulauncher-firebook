@@ -1,0 +1,21 @@
+{
+    "api_version": "3",
+    "name": "Firebook",
+    "authors": "hedgieinsocks",
+    "icon": "firefox",
+    "triggers": {
+        "regular": {
+            "keyword": "f",
+            "name": "Firefox bookmarks",
+            "description": "Search and open Firefox bookmarks"
+        }
+    },
+    "preferences": {
+        "profile": {
+            "type": "input",
+            "name": "Profile Directory",
+            "description": "Path to the directory with the Firefox profile",
+            "default_value": ""
+        }
+    }
+}
