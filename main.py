@@ -20,22 +20,22 @@ class Firebook(Extension):
         if not query:
             if not self.preferences['profile']:
                 return [Result(icon=ICON,
-                               name='The profile path is not set',
-                               description='Specify the profile path in the extension settings',
+                               name='The profile path is not configured',
+                               description='Set the profile path in the extension settings',
                                on_enter=True)]
 
             profile = Path(self.preferences['profile']).expanduser()
             if not profile.is_dir():
                 return [Result(icon=ICON,
-                               name='The provided profile path does not exist',
-                               description=f'Double-check the profile path in the extension settings',
+                               name='The configured profile path does not exist',
+                               description='Double-check the profile path in the extension settings',
                                on_enter=True)]
 
             places_db = Path(f'{profile}/places.sqlite')
             if not places_db.is_file():
                 return [Result(icon=ICON,
-                               name='The provided profile path does not have places.sqlite database',
-                               description=f'Double-check the profile path in the extension settings',
+                               name='The configured profile path does not have places.sqlite database',
+                               description='Double-check the profile path in the extension settings',
                                on_enter=True)]
 
             con = sqlite3.connect(f'file:{places_db}?immutable=1', uri=True)
@@ -56,8 +56,10 @@ class Firebook(Extension):
         items = []
         for i in matches[:25]:
             items.append(Result(icon=ICON,
-                                name=i[0],
+                                name=f'{i[0]} -- {i[1]}' if self.preferences['compact'] else i[0],
                                 description=i[1],
+                                compact=self.preferences['compact'],
+                                highlightable=self.preferences['highlight'],
                                 on_enter=OpenUrlAction(i[1])))
         return items
 

@@ -6,7 +6,7 @@
     "triggers": {
         "regular": {
             "keyword": "f",
-            "name": "Firefox bookmarks",
+            "name": "Firebook",
             "description": "Search and open Firefox bookmarks"
         }
     },
@@ -14,8 +14,20 @@
         "profile": {
             "type": "input",
             "name": "Profile Directory",
-            "description": "Path to the directory with the Firefox profile",
+            "description": "Firefox profile path",
             "default_value": ""
+        },
+        "highlight": {
+            "type": "checkbox",
+            "name": "Highlight Matches",
+            "description": "Draw attension to the matched strings",
+            "default_value": false
+        },
+        "compact": {
+            "type": "checkbox",
+            "name": "Compact Mode",
+            "description": "Enable condensed view",
+            "default_value": false
         }
     }
 }
