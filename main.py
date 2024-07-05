@@ -4,6 +4,7 @@ from pathlib import Path
 
 from ulauncher.api import Extension, Result
 from ulauncher.api.shared.action.OpenUrlAction import OpenUrlAction
+from ulauncher.utils.fuzzy_search import get_score
 
 
 ICON='firefox'
@@ -45,7 +46,11 @@ class Firebook(Extension):
             con.close()
             matches = self.bookmarks
         else:
-            matches = [i for i in self.bookmarks if query in i[0].lower() or query in i[1].lower()]
+            if trigger_id == 'fuzzy':
+                fuzzy_scores = sorted(self.bookmarks, key=lambda fn: get_score(query, f'{fn[0]} {fn[1]}'), reverse=True)
+                matches = list(filter(lambda fn: get_score(query, f'{fn[0]} {fn[1]}') > self.preferences['threshold'], fuzzy_scores))
+            else:
+                matches = [i for i in self.bookmarks if query in i[0].lower() or query in i[1].lower()]
 
         if not matches:
             return [Result(icon=ICON,
